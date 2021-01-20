@@ -11,6 +11,10 @@ const userRoutes = (app) => {
    "/test",
    userCon.testRes
   )
+  app.post(
+    config.apiVersion + "/user/isExist",
+    userCon.getUserByNum
+  )
   /**
  * @api {post} /user/login
 

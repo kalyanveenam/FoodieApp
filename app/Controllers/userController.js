@@ -9,8 +9,8 @@ let emailHelper = require("../Libs/EmailHelper");
 let loginUser = (req, res) => {
   let verifyData = (req, res) => {
     return new Promise((resolve, reject) => {
-      if (req.body.email) {
-        userModel.findOne({ email: req.body.email }).exec((err, result) => {
+      if (req.body.phoneNo) {
+        userModel.findOne({ phoneNo: req.body.phoneNo }).exec((err, result) => {
           if (result) {
             
             resolve(result);
@@ -210,6 +210,34 @@ let logout = (req, res) => {
       res.status(404).send(err);
     });
 };
+let getUserByNum = async (req, res) => {
+  if (req.body.phoneNo) {
+   console.log('coming')
+   userModel.findOne({ phoneNo: req.body.phoneNo }).exec((err, result) => {
+     console.log(result);
+     if (result) {
+       res.send(result);
+     } else if (checkLib.isEmpty(result)) {
+       let apiResponse = response.generate(
+         false,
+         null,
+         404,
+         "User not found! please sign up! "
+       );
+     res.send(apiResponse);
+     }
+   });
+ } else {
+   let apiResponse = response.generate(
+     false,
+     null,
+     404,
+     "Mandatory fields missing, Please provide your userId and password"
+   );
+   res.send(apiResponse);
+ }
+
+}
 let getAllUsers = (req, res) => {
   userModel.find((error, result) => {
     res.send(result);
@@ -293,5 +321,6 @@ module.exports = {
   getAllUsers: getAllUsers,
   sendEmail: sendEmail,
   forgotPassword: forgotPassword,
-  testRes: testRes
+  testRes: testRes,
+  getUserByNum:getUserByNum
 };
