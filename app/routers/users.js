@@ -70,7 +70,10 @@ const userRoutes = (app) => {
     isAuth.authValidation,
     userCon.getAllUsers
   );
-
+app.post(
+  config.apiVersion + "/user/isExist",
+  userCon.getUserByNum
+)
   app.post(config.apiVersion + "/user/logout", userCon.logout);
   /**
  * @api {post} /user/logout
